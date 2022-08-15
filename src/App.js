@@ -1,24 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLifecycles } from 'react-use';
+
 import logo from './logo.svg';
+import LevelMeter from './components/LevelMeter';
+
 import './App.css';
 
+const STATUS_PENDING = 'pending';
+const STATUS_GRANTED = 'granted';
+const STATUS_DENIED = 'denied';
+
 function App() {
+  const [appState, setAppState] = useState(STATUS_PENDING);
+
+  useLifecycles(() => {
+    if ('permissions' in navigator) {
+      navigator.permissions.query({ name: 'gyroscope' }).then((result) => {
+        setAppState(result.state === 'granted' ? STATUS_GRANTED : STATUS_DENIED);
+      });
+    } else {
+      alert('Permissions API not enabled');
+      setAppState(STATUS_DENIED);
+    }
+  }, []);
+
+  if (appState === STATUS_PENDING) {
+    return null;
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        appState === STATUS_GRANTED
+          ? <LevelMeter />
+          : <div>Gyroscope not supported or access was denied</div>
+      }
     </div>
   );
 }

@@ -1,0 +1,63 @@
+.level-meter {
+  position: relative;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.level-meter__meter {
+  box-shadow: inset 3px 3px 15px 5px #212121;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 2px solid #212121;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.level-meter::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  box-shadow: inset 3px 3px 15px 5px #212121;
+  z-index: 10;
+  border-radius: 50%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.level-meter__sky {
+  stroke: white;
+  stroke-width: 1;
+  position: absolute;
+  inset: -5px;
+  z-index: 1
+}
+
+.level-meter__ref {
+  stroke: yellow;
+  stroke-width: 1;
+  fill: none;
+  z-index: 8;
+  position: relative;
+}
+
+.level-meter__sky path {
+  transition: d 0.2s ease;
+}
+
+.level-meter__ground {
+  position: absolute;
+  inset: 0;
+  background-color: #dd7f2a;
+}
+
+.level-meter__debug {
+  position: absolute;
+  top: 100%;
+  padding-top: 16px;
+  font-family: monospace;
+  display: none;
+}
